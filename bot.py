@@ -20,6 +20,9 @@ async def on_message(message):
         await message.channel.send("JianyueLab is a organization gathered with a group of people who are liking developing, servers, locallize and etc.")
     
     if message.content == '!help':
-        await message.channel.send("This is a help message.")
+        await message.channel.send("!jianyuelab <- Explain what is JianyueLab")
+    
+    if message.content == '!minecraft':
+        await message.channel.send("Before you playing the server hold by JianyueLab, you need apply for whitelist")
    
 client.run('MTE3NTQzMDYxODk5NDE4MDIwNg.GLaTtn.SxXOMfkmu1XMMzL6nQreW1NmMogD8lSNOTfNOM')
