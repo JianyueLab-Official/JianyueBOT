@@ -23,7 +23,7 @@ async def on_message(message):
         await message.channel.send("!jianyuelab <- Explain what is JianyueLab \n !changestatus <- change bot status \n !speak <- let bot speak something.")
     
     if message.content.startswith('!changestatus'):
-        tmp = message.content.split(" ",2)
+        tmp = message.content.split(" ",1)
         if len(tmp) == 1:
             await message.channel.send("What do you want to change?")
         else:
@@ -34,7 +34,7 @@ async def on_message(message):
         await message.channel.send("Before you playing the server hold by JianyueLab, you need apply for whitelist")
         
     if message.content.startswith('!speak'):
-      tmp = message.content.split(" ",2)
+      tmp = message.content.split(" ",1)
       if len(tmp) == 1:
         await message.channel.send("What do you want let me to speak?")
       else:
