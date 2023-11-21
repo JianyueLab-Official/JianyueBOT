@@ -30,13 +30,16 @@ async def on_message(message):
 
     if message.content == '!minecraft':
         await message.channel.send("Before you playing the server hold by JianyueLab, you need apply for whitelist")
+        return
         
     if message.content.startswith('!speak'):
         tmp = message.content.split(" ",1)
         if len(tmp) == 1:
             await message.channel.send("What do you want let me to speak?")
+            return
         else:
             await message.channel.send(tmp[1])
+            return
             
     if message.content.startswith('!status'):
         tmp = message.content.split(" ")
@@ -57,9 +60,10 @@ async def on_message(message):
     
     if message.content == '!help':
         await message.channel.send("!status <- change bot status \n!speak <- let bot speak something. \n!statusmod <- Change bot status(online, idle, do_not_disturb)")
+        return
     
     if message.content == '!version':
-        await message.channel.send("Setting File Verison: " + setting_version, "Bot Version: " + bot_version, "Bot Build: " + bot_build)
+        return
     
     else:
         await message.channel.send("Invalid Input. Please check '!help'.")
