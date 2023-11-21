@@ -8,6 +8,7 @@ intents.message_content = True
 client = discord.Client(intents = intents)
 bot_version = "v0.0.2"
 bot_build = "10 fix"
+bot_type = "Dev Build"
 
 @client.event
 async def on_ready():
@@ -60,7 +61,7 @@ async def on_message(message):
         return
     
     if message.content == '!version':
-        await message.channel.send("**Setting File Version:** " + str(setting_version) + "\n**Bot Version:** " + str(bot_version) + "\n**Bot Build:** " + str(bot_build))
+        await message.channel.send("**Setting File Version:** " + str(setting_version) + "\n**Bot Version:** " + str(bot_version) + "\n**Bot Build:** " + str(bot_build) + "\n**Bot Type:** " + str(bot_type))
         return
     
     else:
