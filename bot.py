@@ -7,7 +7,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents = intents)
 bot_version = "v0.0.2"
-bot_build = "10"
+bot_build = "10 fix"
 
 @client.event
 async def on_ready():
@@ -21,7 +21,7 @@ async def on_ready():
     else:
         print("unknown Status")  
         edit_status = discord.Status.online
-    game = discord.CustomActivity(default_custom_status)
+    game = discord.Game(default_custom_status)
     await client.change_presence(status=edit_status, activity=game)
 
 @client.event
