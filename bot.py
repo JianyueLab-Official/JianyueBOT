@@ -51,9 +51,6 @@ async def on_message(message):
         elif tmp[1] == 'do_not_disturb':
             await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game(' '.join(tmp[2:])))
             return
-        else:
-            await message.channel.send("Invalid Input. Check '!help' to correct it.")
-            return
     
     if message.content == '!help':
         await message.channel.send("!status <- change bot status \n!speak <- let bot speak something. \n!statusmod <- Change bot status(online, idle, do_not_disturb)")
