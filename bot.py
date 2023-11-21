@@ -37,7 +37,7 @@ async def on_message(message):
             await message.channel.send(tmp[1])
             
     if message.content.startswith('!status'):
-        tmp = message.content.split(" ",2)
+        tmp = message.content.split(" ",1)
         if len(tmp) == 1:
             await message.channel.send("What do you want to change?")
         elif tmp[1] == 'online':
