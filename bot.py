@@ -1,10 +1,12 @@
 from http.client import responses
 import discord
-from settings import TOKEN, default_status, default_custom_status
+from settings import TOKEN, default_status, default_custom_status, setting_version
 
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents = intents)
+bot_version = "V0.0.2"
+bot_build = "8"
 
 @client.event
 async def on_ready():
@@ -51,9 +53,13 @@ async def on_message(message):
             return
         else:
             await message.channel.send("Invalid Input. Check '!help' to correct it.")
+            return
     
     if message.content == '!help':
         await message.channel.send("!status <- change bot status \n!speak <- let bot speak something. \n!statusmod <- Change bot status(online, idle, do_not_disturb)")
+    
+    if message.content == '!version':
+        await message.channel.send("Setting File Verison: " + setting_version, "Bot Version: " + bot_version, "Bot Build: " + bot_build)
     
     else:
         await message.channel.send("Invalid Input. Please check '!help'.")

@@ -4,3 +4,5 @@ TOKEN = 'MTE3NTQzMDYxODk5NDE4MDIwNg.GLaTtn.SxXOMfkmu1XMMzL6nQreW1NmMogD8lSNOTfNO
 default_custom_status = '!help'
 # Discord Bot Default Status Mode: (online, idle, do_not_disturb)
 default_status = 'idle'
+# Do not change this number!
+setting_version: 1
