@@ -1,12 +1,13 @@
 from http.client import responses
 import discord
 from settings import TOKEN, default_status, default_custom_status, setting_version
+from help import help_message
 
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents = intents)
-bot_version = "V0.0.2"
-bot_build = "8 fix"
+bot_version = "v0.0.2"
+bot_build = "9"
 
 @client.event
 async def on_ready():
@@ -28,10 +29,6 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content == '!minecraft':
-        await message.channel.send("Before you playing the server hold by JianyueLab, you need apply for whitelist")
-        return
-        
     if message.content.startswith('!speak'):
         tmp = message.content.split(" ",1)
         if len(tmp) == 1:
@@ -59,11 +56,11 @@ async def on_message(message):
             return
     
     if message.content == '!help':
-        await message.channel.send("!status <- change bot status \n!speak <- let bot speak something. \n!statusmod <- Change bot status(online, idle, do_not_disturb)")
+        await message.channel.send(help_message)
         return
     
     if message.content == '!version':
-        await message.channel.send("Setting File Version: " + str(setting_version) + "\nBot Version: " + str(bot_version) + "\nBot Build: " + str(bot_build))
+        await message.channel.send("**Setting File Version:** " + str(setting_version) + "\n**Bot Version:** " + str(bot_version) + "\n**Bot Build:** " + str(bot_build))
         return
     
     else:
