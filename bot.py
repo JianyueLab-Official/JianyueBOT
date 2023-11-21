@@ -59,6 +59,6 @@ async def on_message(message):
             await message.channel.send("Invalid Input. Check '!help' to correct it.")
     
     if message.content == '!help':
-        await message.channel.send("!status <- change bot status \n !speak <- let bot speak something. \n !statusmod <- Change bot status(online, idle, do not disturb) \n - idle \n - online \n - do_not_disturb")
+        await message.channel.send("!status <- change bot status \n!speak <- let bot speak something. \n!statusmod <- Change bot status(online, idle, do_not_disturb)")
    
 client.run(TOKEN)
