@@ -41,11 +41,14 @@ async def on_message(message):
         if len(tmp) == 1:
             await message.channel.send("What do you want to change?")
         elif tmp[1] == 'online':
-            await client.change_presence(status=discord.Status.online, activity=discord.Game(tmp[2:]))
+            await client.change_presence(status=discord.Status.online, activity=discord.Game(' '.join(tmp[2:])))
+            return
         elif tmp[1] == 'idle':
-            await client.change_presence(status=discord.Status.idle, activity=discord.Game(tmp[2:]))
+            await client.change_presence(status=discord.Status.idle, activity=discord.Game(' '.join(tmp[2:])))
+            return
         elif tmp[1] == 'do_not_disturb':
-            await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game(tmp[2:]))
+            await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game(' '.join(tmp[2:])))
+            return
         else:
             await message.channel.send("Invalid Input. Check '!help' to correct it.")
     
