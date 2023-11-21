@@ -6,19 +6,18 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents = intents)
 
-if default_status == 'idle':
-    edit_status = discord.Status.idle
-elif default_status == 'online':
-    edit_status = discord.Status.online
-elif default_status == 'do_not_discord':
-    edit_status = discord.Status.do_not_disturb
-else:
-    print("unknown Status")  
-    edit_status = discord.Status.online
-
 @client.event
 async def on_ready():
     print(f"目前登录身份 --> {client.user}")
+    if default_status == 'idle':
+        edit_status = discord.Status.idle
+    elif default_status == 'online':
+        edit_status = discord.Status.online
+    elif default_status == 'do_not_discord':
+        edit_status = discord.Status.do_not_disturb
+    else:
+        print("unknown Status")  
+        edit_status = discord.Status.online
     game = discord.Game(default_custom_status)
     await client.change_presence(status=edit_status, activity=game)
 
@@ -36,25 +35,17 @@ async def on_message(message):
             await message.channel.send("What do you want let me to speak?")
         else:
             await message.channel.send(tmp[1])
-        
+            
     if message.content.startswith('!status'):
-        tmp = message.content.split(" ",1)
-        if len(tmp) == 1:
-            await message.channel.send("What do you want to change?")
-        else:
-            game = discord.Game(tmp[1])
-            await client.change_presence(status=edit_status, activity=game)
-    
-    if message.content.startswith('!statusmode'):
         tmp = message.content.split(" ",2)
         if len(tmp) == 1:
             await message.channel.send("What do you want to change?")
-        elif tmp[2] == 'online':
-            await client.change_presence(status=discord.Status.online, activity=default_custom_status)
-        elif tmp[2] == 'idle':
-            await client.change_presence(status=discord.Status.idle, activity=default_custom_status)
-        elif tmp[2] == 'do_not_disturb':
-            await client.change_presence(status=discord.Status.do_not_disturb, activity=default_custom_status)
+        elif tmp[1] == 'online':
+            await client.change_presence(status=discord.Status.online)
+        elif tmp[1] == 'idle':
+            await client.change_presence(status=discord.Status.idle)
+        elif tmp[1] == 'do_not_disturb':
+            await client.change_presence(status=discord.Status.do_not_disturb)
         else:
             await message.channel.send("Invalid Input. Check '!help' to correct it.")
     
