@@ -48,8 +48,8 @@ async def on_message(message):
         elif tmp[1] == 'idle':
             await client.change_presence(status=discord.Status.idle, activity=discord.Game(' '.join(tmp[2:])))
             return
-        elif tmp[1] == 'do_not_disturb':
-            await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game(' '.join(tmp[2:])))
+        elif tmp[1] == 'dnd':
+            await client.change_presence(status=discord.Status.dnd, activity=discord.Game(' '.join(tmp[2:])))
             return
         else:
             await message.channel.send("Invalid Input. Check '!help' to correct it.")
