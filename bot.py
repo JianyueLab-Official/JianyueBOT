@@ -1,24 +1,32 @@
 from http.client import responses
 import discord
+from settings import TOKEN, default_status, default_custom_status
 
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents = intents)
 
+if default_status == 'idle':
+    edit_status = discord.Status.idle
+elif default_status == 'online':
+    edit_status = discord.Status.online
+elif default_status == 'do_not_discord':
+    edit_status = discord.Status.do_not_disturb
+else:
+    print("unknown Status")  
+    edit_status = discord.Status.online
+
 @client.event
 async def on_ready():
     print(f"目前登录身份 --> {client.user}")
-    game = discord.Game('!help')
-    await client.change_presence(status=discord.Status.idle, activity=game)
+    game = discord.Game(default_custom_status)
+    await client.change_presence(status=edit_status, activity=game)
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
-    
-    if message.content == '!jianyuelab':
-        await message.channel.send("JianyueLab is a organization gathered with a group of people who are liking developing, servers, locallize and etc.")
-    
+
     if message.content == '!minecraft':
         await message.channel.send("Before you playing the server hold by JianyueLab, you need apply for whitelist")
         
@@ -29,15 +37,28 @@ async def on_message(message):
         else:
             await message.channel.send(tmp[1])
         
-    if message.content.startswith('!changestatus'):
+    if message.content.startswith('!status'):
         tmp = message.content.split(" ",1)
         if len(tmp) == 1:
             await message.channel.send("What do you want to change?")
         else:
             game = discord.Game(tmp[1])
-            await client.change_presence(status=discord.Status.idle, activity=game)
+            await client.change_presence(status=edit_status, activity=game)
+    
+    if message.content.startswith('!statusmode'):
+        tmp = message.content.split(" ",2)
+        if len(tmp) == 1:
+            await message.channel.send("What do you want to change?")
+        elif tmp[2] == 'online':
+            await client.change_presence(status=discord.Status.online)
+        elif tmp[2] == 'idle':
+            await client.change_presence(status=discord.Status.idle)
+        elif tmp[2] == 'do_not_disturb':
+            await client.change_presence(status=discord.Status.do_not_disturb)
+        else:
+            await message.channel.send("Invalid Input. Check '!help' to correct it.")
     
     if message.content == '!help':
-        await message.channel.send("!jianyuelab <- Explain what is JianyueLab \n !changestatus <- change bot status \n !speak <- let bot speak something.")
+        await message.channel.send("!status <- change bot status \n !speak <- let bot speak something. \n !statusmod <- Change bot status(online, idle, do not disturb) \n - idle \n - online \n - do_not_disturb")
    
-client.run('MTE3NTQzMDYxODk5NDE4MDIwNg.GLaTtn.SxXOMfkmu1XMMzL6nQreW1NmMogD8lSNOTfNOM')
+client.run(TOKEN)
