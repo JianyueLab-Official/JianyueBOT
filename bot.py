@@ -63,7 +63,7 @@ async def on_message(message):
         return
     
     if message.content == '!version':
-        await message.channel.send("Setting File Verison: " + str(setting_version), "\nBot Version: " + str(bot_version), "\nBot Build: " + str(bot_build))
+        await message.channel.send("Setting File Version: " + str(setting_version) + "\nBot Version: " + str(bot_version) + "\nBot Build: " + str(bot_build))
         return
     
     else:
