@@ -37,19 +37,22 @@ async def on_message(message):
             await message.channel.send(tmp[1])
             
     if message.content.startswith('!status'):
-        tmp = message.content.split(" ",1)
+        tmp = message.content.split(" ")
         if len(tmp) == 1:
             await message.channel.send("What do you want to change?")
         elif tmp[1] == 'online':
-            await client.change_presence(status=discord.Status.online)
+            await client.change_presence(status=discord.Status.online, activity=discord.Game(tmp[2:]))
         elif tmp[1] == 'idle':
-            await client.change_presence(status=discord.Status.idle)
+            await client.change_presence(status=discord.Status.idle, activity=discord.Game(tmp[2:]))
         elif tmp[1] == 'do_not_disturb':
-            await client.change_presence(status=discord.Status.do_not_disturb)
+            await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game(tmp[2:]))
         else:
             await message.channel.send("Invalid Input. Check '!help' to correct it.")
     
     if message.content == '!help':
         await message.channel.send("!status <- change bot status \n!speak <- let bot speak something. \n!statusmod <- Change bot status(online, idle, do_not_disturb)")
-   
+    
+    else:
+        await message.channel.send("Invalid Input. Please check '!help'.")
+    
 client.run(TOKEN)
