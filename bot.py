@@ -50,11 +50,11 @@ async def on_message(message):
         if len(tmp) == 1:
             await message.channel.send("What do you want to change?")
         elif tmp[2] == 'online':
-            await client.change_presence(status=discord.Status.online)
+            await client.change_presence(status=discord.Status.online, activity=default_custom_status)
         elif tmp[2] == 'idle':
-            await client.change_presence(status=discord.Status.idle)
+            await client.change_presence(status=discord.Status.idle, activity=default_custom_status)
         elif tmp[2] == 'do_not_disturb':
-            await client.change_presence(status=discord.Status.do_not_disturb)
+            await client.change_presence(status=discord.Status.do_not_disturb, activity=default_custom_status)
         else:
             await message.channel.send("Invalid Input. Check '!help' to correct it.")
     
