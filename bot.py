@@ -37,7 +37,7 @@ async def say(interaction: discord.Interaction, things_to_say: str):
 
 @client.tree.command(name='version', description="Print the version of the bot")
 async def version(interaction: discord.Interaction):
-    await interaction.response.send_message(f"**Bot Version:** {bot_version}\n**Bot Build:** {bot_build}\n**Settings Version:** {setting_version}\n**Build Type:** {bot_type}")
+    await interaction.response.send_message(f"**Bot Version:** {bot_version}\n**Bot Build:** {bot_build}\n**Settings Version:** {setting_version}\n**Build Type:** {bot_type}", ephemeral=True)
 
 @client.tree.command(name="status", description="Change the status")
 @app_commands.choices(choices=[
@@ -53,15 +53,15 @@ async def status(interaction: discord.Interaction, choices: app_commands.Choice[
         elif choices.value == "dnd":
             changed_status = discord.Status.dnd
         else:
-            await interaction.response.send_message(f"Unknown Status. Please specify 'online', 'idle', 'Do Not Disturb'")
+            await interaction.response.send_message(f"Unknown Status. Please specify 'online', 'idle', 'Do Not Disturb'", ephemeral=True)
             return
         
         game = discord.Game(custom_status_message)
         await client.change_presence(status=changed_status, activity=game)
-        await interaction.response.send_message(f"Status Updated!")
+        await interaction.response.send_message(f"Status Updated!", ephemeral=True)
 
 @client.tree.command(name="help", description="Guild of use this bot.")
 async def version(interaction: discord.Interaction):
-    await interaction.response.send_message(f"- ```/say [message]``` let bot send a message. \n- ```/status [Status] [Custom Status]``` Change Bot's status. \n- ```/version``` print the version of this bot.")
+    await interaction.response.send_message(f"- ```/say [message]``` let bot send a message. \n- ```/status [Status] [Custom Status]``` Change Bot's status. \n- ```/version``` print the version of this bot.", ephemeral=True)
 
 client.run(TOKEN)
