@@ -41,9 +41,9 @@ async def version(interaction: discord.Interaction):
 
 @client.tree.command(name="status", description="Change the status")
 @app_commands.choices(choices=[
-    app_commands.Choice(name="Online", value="online", description="Let bot's status be online."),
-    app_commands.Choice(name="idle", value="idle", description="Let bot's status be idle."),
-    app_commands.Choice(name="Do Not Disturb", value="dnd", description="Let bot' status be Do Not Disturb."),
+    app_commands.Choice(name="Online", value="online"),
+    app_commands.Choice(name="idle", value="idle"),
+    app_commands.Choice(name="Do Not Disturb", value="dnd"),
 ])
 async def status(interaction: discord.Interaction, choices: app_commands.Choice[str], *, custom_status_message: str):
         if choices.value == "online":
