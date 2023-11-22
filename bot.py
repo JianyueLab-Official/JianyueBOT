@@ -1,18 +1,18 @@
-from http.client import responses
 import discord
-from settings import TOKEN, default_status, default_custom_status, setting_version
-from help import help_message
+from discord.ext import commands
+from discord import app_commands
+from settings import TOKEN, default_custom_status, default_status, setting_version
 
-intents = discord.Intents.default()
-intents.message_content = True
-client = discord.Client(intents = intents)
-bot_version = "v0.0.2"
-bot_build = "11"
+intents = discord.Intents.all() 
+client = commands.Bot(command_prefix='!', intents=intents)
+bot_version = "v0.0.3"
+bot_build = "1"
 bot_type = "Dev Build"
+
 
 @client.event
 async def on_ready():
-    print(f"目前登录身份 --> {client.user}")
+    print("Bot is ready for use!")
     if default_status == 'idle':
         edit_status = discord.Status.idle
     elif default_status == 'online':
@@ -24,44 +24,44 @@ async def on_ready():
         edit_status = discord.Status.online
     game = discord.Game(default_custom_status)
     await client.change_presence(status=edit_status, activity=game)
+    try:
+        synced = await client.tree.sync()
+        print(f"synced {len(synced)} command(s)")
+    except Exception as e:
+        print(e)
+    
+@client.tree.command(name="say", description="Let bot say something.")
+@app_commands.describe(things_to_say = "What should I say?")
+async def say(interaction: discord.Interaction, things_to_say: str):
+    await interaction.response.send_message(f"{things_to_say}")
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+@client.tree.command(name='version', description="Print the version of the bot")
+async def version(interaction: discord.Interaction):
+    await interaction.response.send_message(f"**Bot Version:** {bot_version}\n**Bot Build:** {bot_build}\n**Settings Version:** {setting_version}\n**Build Type:** {bot_type}")
 
-    if message.content.startswith('!speak'):
-        tmp = message.content.split(" ",1)
-        if len(tmp) == 1:
-            await message.channel.send("What do you want let me to speak?")
-            return
+@client.tree.command(name="status", description="Change the status")
+@app_commands.choices(choices=[
+    app_commands.Choice(name="Online", value="online"),
+    app_commands.Choice(name="idle", value="idle"),
+    app_commands.Choice(name="Do Not Disturb", value="dnd"),
+])
+async def status(interaction: discord.Interaction, choices: app_commands.Choice[str], *, custom_status_message: str = ""):
+        if choices.value == "online":
+            changed_status = discord.Status.online
+        elif choices.value == "idle":
+            changed_status = discord.Status.idle
+        elif choices.value == "dnd":
+            changed_status = discord.Status.dnd
         else:
-            await message.channel.send(tmp[1])
+            await interaction.response.send_message(f"Unknown Status. Please specify 'online', 'idle', 'Do Not Disturb'")
             return
-            
-    if message.content.startswith('!status'):
-        tmp = message.content.split(" ")
-        if len(tmp) == 1:
-            await message.channel.send("What do you want to change?")
-        elif tmp[1] == 'online':
-            await client.change_presence(status=discord.Status.online, activity=discord.Game(' '.join(tmp[2:])))
-            return
-        elif tmp[1] == 'idle':
-            await client.change_presence(status=discord.Status.idle, activity=discord.Game(' '.join(tmp[2:])))
-            return
-        elif tmp[1] == 'dnd':
-            await client.change_presence(status=discord.Status.dnd, activity=discord.Game(' '.join(tmp[2:])))
-            return
-        else:
-            await message.channel.send("Invalid Input. Check '!help' to correct it.")
-            return
-    
-    if message.content == '!help':
-        await message.channel.send(help_message)
-        return
-    
-    if message.content == '!version':
-        await message.channel.send("**Setting File Version:** " + str(setting_version) + "\n**Bot Version:** " + str(bot_version) + "\n**Bot Build:** " + str(bot_build) + "\n**Bot Type:** " + str(bot_type))
-        return
-    
+        
+        game = discord.Game(custom_status_message)
+        await client.change_presence(status=changed_status, activity=game)
+        await interaction.response.send_message(f"Status Updated!")
+
+@client.tree.command(name="help")
+async def version(interaction: discord.Interaction):
+    await interaction.response.send_message(f"- ```/say [message]``` let bot send a message. \n- ```/status [Status] [Custom Status]``` Change Bot's status. \n- ```/version``` print the version of this bot.")
+
 client.run(TOKEN)
