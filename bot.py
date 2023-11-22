@@ -6,7 +6,7 @@ from settings import TOKEN, default_custom_status, default_status, setting_versi
 intents = discord.Intents.all() 
 client = commands.Bot(command_prefix='!', intents=intents)
 bot_version = "v0.0.3"
-bot_build = "1"
+bot_build = "1 fix"
 bot_type = "Dev Build"
 
 
@@ -41,11 +41,11 @@ async def version(interaction: discord.Interaction):
 
 @client.tree.command(name="status", description="Change the status")
 @app_commands.choices(choices=[
-    app_commands.Choice(name="Online", value="online"),
-    app_commands.Choice(name="idle", value="idle"),
-    app_commands.Choice(name="Do Not Disturb", value="dnd"),
+    app_commands.Choice(name="Online", value="online", description="Let bot's status be online."),
+    app_commands.Choice(name="idle", value="idle", description="Let bot's status be idle."),
+    app_commands.Choice(name="Do Not Disturb", value="dnd", description="Let bot' status be Do Not Disturb."),
 ])
-async def status(interaction: discord.Interaction, choices: app_commands.Choice[str], *, custom_status_message: str = ""):
+async def status(interaction: discord.Interaction, choices: app_commands.Choice[str], *, custom_status_message: str):
         if choices.value == "online":
             changed_status = discord.Status.online
         elif choices.value == "idle":
@@ -60,7 +60,7 @@ async def status(interaction: discord.Interaction, choices: app_commands.Choice[
         await client.change_presence(status=changed_status, activity=game)
         await interaction.response.send_message(f"Status Updated!")
 
-@client.tree.command(name="help")
+@client.tree.command(name="help", description="Guild of use this bot.")
 async def version(interaction: discord.Interaction):
     await interaction.response.send_message(f"- ```/say [message]``` let bot send a message. \n- ```/status [Status] [Custom Status]``` Change Bot's status. \n- ```/version``` print the version of this bot.")
 
