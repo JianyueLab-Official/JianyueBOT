@@ -62,6 +62,6 @@ async def status(interaction: discord.Interaction, choices: app_commands.Choice[
 
 @client.tree.command(name="help", description="Guild of use this bot.")
 async def version(interaction: discord.Interaction):
-    await interaction.response.send_message(f"- ```/say [message]``` let bot send a message. \n- ```/status [Status] [Custom Status]``` Change Bot's status. \n- ```/version``` print the version of this bot.", ephemeral=True)
+    await interaction.response.send_message(f"- `/say [message]` let bot send a message. \n- `/status [Status] [Custom Status]` Change Bot's status. \n- `/version` print the version of this bot.", ephemeral=True)
 
 client.run(TOKEN)
