@@ -77,7 +77,7 @@ async def zipcode(interaction: discord.Interaction, country: app_commands.Choice
             await interaction.followup.send(f"Invalid Zipcode.")
             return
         else:
-            await interaction.followup.send(f"Address 住所: \nPrefecture 都道府県: {result['address1']} {result['kana1']}\nCity 市区町村: {result['address2']} {result['kana2']}\nTown 町域: {result['address3']} {result['kana3']}")
+            await interaction.followup.send(f"**Address 住所:** \n**Prefecture 都道府県:** {result['address1']} {result['kana1']}\n**City 市区町村:** {result['address2']} {result['kana2']}\n**Town 町域:** {result['address3']} {result['kana3']}")
             return
     if country.value == 'CN':
         result = "Unavaliable"
