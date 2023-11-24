@@ -3,14 +3,14 @@ from discord.ext import commands
 from discord import app_commands
 from settings import TOKEN, default_custom_status, default_status, setting_version
 import random
-from zipcode import search_zipcode
+from scripts.zipcode import search_zipcode_jp
 
 
 intents = discord.Intents.all() 
 client = commands.Bot(command_prefix='!', intents=intents)
 bot_version = "v0.0.4"
-bot_build = "1"
-bot_type = "Private Build"
+bot_build = "2"
+bot_type = "Dev Build"
 
 
 @client.event
@@ -65,13 +65,31 @@ async def roll(interaction: discord.Interaction):
     await interaction.response.send_message(f"Number is {number}")
 
 @client.tree.command(name='zipcode', description='search address from zipcode')
-async def zipcode(interaction: discord.Interaction, zipcode: str):
-    await interaction.response.defer(ephemeral=True)   
-    result = search_zipcode(zipcode)
-    if result is None:
-        await interaction.followup.send(f"Invalid Zipcode.")
-    else:
-        await interaction.followup.send(f"Address: {result['address1']} {result['address2']} {result['address3']}")
+@app_commands.choices(country=[
+    app_commands.Choice(name='China', value='CN'),
+    app_commands.Choice(name='Japan', value='JP'),
+])
+async def zipcode(interaction: discord.Interaction, country: app_commands.Choice[str], zipcode: str):
+    await interaction.response.defer(ephemeral=True)
+    if country.value == 'JP':
+        result = search_zipcode_jp(zipcode)
+        if result is None:
+            await interaction.followup.send(f"Invalid Zipcode.")
+            return
+        else:
+            await interaction.followup.send(f"Address: {result['address1']} {result['address2']} {result['address3']}")
+            return
+    if country.value == 'CN':
+        result = "Unavaliable"
+        if result is None:
+            await interaction.followup.send(f"Invalid Zipcode.")
+            return
+        else:
+            await interaction.followup.send(f"Address: {result}")
+            return
+    else: 
+        await interaction.followup.send(f'Invalid Country.')
+
 
 @client.tree.command(name='version', description="Print the version of the bot")
 async def version(interaction: discord.Interaction):
@@ -81,7 +99,7 @@ async def version(interaction: discord.Interaction):
 async def version(interaction: discord.Interaction):
     await interaction.response.send_message(f"- `/say [message]` let bot send a message."
                                             "\n- `/roll` Roll a dice"
-                                            "\n- `/zipcode [zipcode]` Search address from zipcode"
+                                            "\n- `/zipcode [Country] [zipcode]` Search address from zipcode"
                                             "\n- `/status [Status] [Custom Status]` Change Bot's status. "
                                             "\n- `/version` Print the version of this bot."
                                             "\n- `/help` Show the help of using this bot.",

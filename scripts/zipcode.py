@@ -1,6 +1,7 @@
 import requests
+from bs4 import BeautifulSoup
 
-def search_zipcode(zipcode):
+def search_zipcode_jp(zipcode):
     url = "https://zipcloud.ibsnet.co.jp/api/search"
     params = {"zipcode": zipcode}
 
@@ -20,3 +21,4 @@ def search_zipcode(zipcode):
     except requests.exceptions.RequestException as e:
         print(f"An error occurred while processing the request: {e}")
         return None
+    
