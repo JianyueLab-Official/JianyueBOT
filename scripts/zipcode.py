@@ -1,5 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
 
 def search_zipcode_jp(zipcode):
     url = "https://zipcloud.ibsnet.co.jp/api/search"
