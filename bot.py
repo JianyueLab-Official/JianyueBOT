@@ -1,3 +1,4 @@
+# imports
 import discord
 from discord.ext import commands
 from discord import app_commands
@@ -5,17 +6,21 @@ from settings import TOKEN, default_custom_status, default_status, setting_versi
 import random
 from scripts.zipcode import search_zipcode_jp
 
-
+# 固定不变
 intents = discord.Intents.all() 
 client = commands.Bot(command_prefix='!', intents=intents)
+
+# 版本号
 bot_version = "v0.0.4"
 bot_build = "2"
 bot_type = "Dev Build"
 
-
+# 启动之后
 @client.event
 async def on_ready():
+    # 终端输出
     print("Bot is ready for use!")
+    # 从配置文件中获取设定的状态
     if default_status == 'idle':
         edit_status = discord.Status.idle
     elif default_status == 'online':
@@ -25,19 +30,23 @@ async def on_ready():
     else:
         print("unknown Status")  
         edit_status = discord.Status.online
+    # 自定义状态的内容
     game = discord.Game(default_custom_status)
     await client.change_presence(status=edit_status, activity=game)
+    #同步命令 并输出
     try:
         synced = await client.tree.sync()
         print(f"synced {len(synced)} command(s)")
     except Exception as e:
         print(e)
     
+# /say [things_to_say]
 @client.tree.command(name="say", description="Let bot say something.")
 @app_commands.describe(things_to_say = "What should I say?")
 async def say(interaction: discord.Interaction, things_to_say: str):
     await interaction.response.send_message(f"{things_to_say}")
 
+# /status [choice] [custom]
 @client.tree.command(name="status", description="Change the status")
 @app_commands.choices(choices=[
     app_commands.Choice(name="Online", value="online"),
@@ -59,11 +68,13 @@ async def status(interaction: discord.Interaction, choices: app_commands.Choice[
         await client.change_presence(status=changed_status, activity=game)
         await interaction.response.send_message(f"Status Updated!", ephemeral=True)
 
+# /roll 
 @client.tree.command(name='roll', description='Roll a dice.')
 async def roll(interaction: discord.Interaction):
     number = random.randint(1, 6)
     await interaction.response.send_message(f"Number is {number}")
 
+# /zipcode [country] [zipcode]
 @client.tree.command(name='zipcode', description='search address from zipcode')
 @app_commands.choices(country=[
     app_commands.Choice(name='China', value='CN'),
@@ -90,11 +101,12 @@ async def zipcode(interaction: discord.Interaction, country: app_commands.Choice
     else: 
         await interaction.followup.send(f'Invalid Country.')
 
-
+# /version
 @client.tree.command(name='version', description="Print the version of the bot")
 async def version(interaction: discord.Interaction):
     await interaction.response.send_message(f"**Bot Version:** {bot_version}\n**Bot Build:** {bot_build}\n**Settings Version:** {setting_version}\n**Build Type:** {bot_type}", ephemeral=True)
 
+# /help
 @client.tree.command(name='help', description='Guild of use this bot.')
 async def version(interaction: discord.Interaction):
     await interaction.response.send_message(f"- `/say [message]` let bot send a message."
