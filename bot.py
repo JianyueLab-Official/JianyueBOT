@@ -5,15 +5,16 @@ from discord import app_commands
 from settings import TOKEN, default_custom_status, default_status, setting_version
 import random
 from scripts.zipcode import search_zipcode_jp
+from scripts.iplocation import iplocations
 
 # 固定不变
 intents = discord.Intents.all() 
 client = commands.Bot(command_prefix='!', intents=intents)
 
 # 版本号
-bot_version = "v0.0.4"
-bot_build = "2"
-bot_type = "Dev Build"
+bot_version = "v0.1.0"
+bot_build = "1"
+bot_type = "Release Build"
 
 # 启动之后
 @client.event
@@ -100,6 +101,32 @@ async def zipcode(interaction: discord.Interaction, country: app_commands.Choice
             return
     else: 
         await interaction.followup.send(f'Invalid Country.')
+        
+# /iplocation
+@client.tree.command(name='iplocation', description="Show the Geolocation from IP address")
+async def iplocation(interaction: discord.Interaction, ipaddress: str):
+    await interaction.response.defer(ephemeral=True)
+    result = iplocations(ipaddress)
+    if result is None:
+        await interaction.followup.send(f"Invalid IP address or Inter Error")
+        return
+    else:
+        embed = discord.Embed(
+            colour=discord.Colour.blue(),
+            title="IP Location",
+            description=(f"This is the Result of {ipaddress}")
+        )
+        embed.add_field(name='IP address', value=result['ip'])
+        embed.add_field(name='IP number', value=result['ip_number'])
+        embed.add_field(name='IP version', value=result['ip_version'])
+        embed.add_field(name='IP country name', value=result['country_name'])
+        embed.add_field(name='IP country code', value=result['country_code2'])
+        embed.add_field(name='IP ISP', value=result['isp'])
+        embed.add_field(name='IP response_code', value=result['response_code'])
+        embed.add_field(name='IP response_message', value=result['response_message'])
+        
+        await interaction.followup.send(embed=embed)
+        return
 
 # /version
 @client.tree.command(name='version', description="Print the version of the bot")
@@ -111,6 +138,7 @@ async def version(interaction: discord.Interaction):
 async def version(interaction: discord.Interaction):
     await interaction.response.send_message(f"- `/say [message]` let bot send a message."
                                             "\n- `/roll` Roll a dice"
+                                            "\n- `/iplocation [IP address]` Find geolocation of IP address"
                                             "\n- `/zipcode [Country] [zipcode]` Search address from zipcode"
                                             "\n- `/status [Status] [Custom Status]` Change Bot's status. "
                                             "\n- `/version` Print the version of this bot."
