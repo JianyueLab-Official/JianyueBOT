@@ -80,7 +80,6 @@ async def roll(interaction: discord.Interaction):
 # /zipcode [country] [zipcode]
 @client.tree.command(name='zipcode', description='search address from zipcode')
 @app_commands.choices(country=[
-    app_commands.Choice(name='China', value='CN'),
     app_commands.Choice(name='Japan', value='JP'),
 ])
 async def zipcode(interaction: discord.Interaction, country: app_commands.Choice[str], zipcode: str):
@@ -156,7 +155,7 @@ async def iplocation(interaction: discord.Interaction, ipaddress: str):
         return
 
 # /domain
-@client.tree.command(name='domain', description='Find the cheapest domain register')
+@client.tree.command(name='domain', description='Find the cheapest domain registrar')
 @app_commands.choices(
     order=[
     app_commands.Choice(name='New', value='new'),
@@ -210,24 +209,133 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
             f"\n- **Transfer**: {result['transfer_4']}"
             f"\n- **Registrar Website**: {result['reg_web_4']}"
             )
-
+        return
+    
+# /registrar
+@client.tree.command(name='registrar', description='Find the cheapest domain registrar')
+@app_commands.choices(
+    order=[
+        app_commands.Choice(name='New', value='new'),
+        app_commands.Choice(name='Renew', value='renew'),
+        app_commands.Choice(name='Transfer', value='transfer'),
+    ],
+    registrar=[
+        app_commands.Choice(name='阿里云', value='aliyun'),
+        app_commands.Choice(name='爱名网', value='22cn'),
+        app_commands.Choice(name='百度智能云', value='baidu'),
+        app_commands.Choice(name='华为云', value='huawei'),
+        app_commands.Choice(name='火山引擎', value='volcengine'),
+        app_commands.Choice(name='具名网', value='juming'),
+        app_commands.Choice(name='趣域网', value='quyu'),
+        app_commands.Choice(name='腾讯云', value='tencent'),
+        app_commands.Choice(name='西部数码', value='west'),
+        app_commands.Choice(name='西部数码国际', value='363hk'),
+        app_commands.Choice(name='新网', value='xinnet'),
+        app_commands.Choice(name='易名', value='ename'),
+        app_commands.Choice(name='中资源', value='zzy'),
+        app_commands.Choice(name='101domain', value='101domain'),
+        app_commands.Choice(name='Afriregister', value='afriregister'),
+        app_commands.Choice(name='Alibaba Cloud', value='alibaba'),
+        app_commands.Choice(name='ALLDomains', value='alldomains'),
+        app_commands.Choice(name='CanSpace', value='canspace'),
+        app_commands.Choice(name='Cloudflare', value='cloudflare'),
+        app_commands.Choice(name='Cosmotown', value='cosmotown'),
+        app_commands.Choice(name='DDD.com', value='ddd'),
+        app_commands.Choice(name='Directnic', value='directnic'),
+        app_commands.Choice(name='Domain.com', value='domaincom'),
+        app_commands.Choice(name='domgate', value='domgate'),
+        app_commands.Choice(name='dotology', value='dotology'),
+        app_commands.Choice(name='DreamHost', value='dreamhost'),
+        app_commands.Choice(name='Dynadot', value='dynadot'),
+        app_commands.Choice(name='EnCirca', value='encirca'),
+        app_commands.Choice(name='Enom', value='enom'),
+        app_commands.Choice(name='Epik', value='epik'),
+        app_commands.Choice(name='gandi.net', value='gandi'),
+        app_commands.Choice(name='Globalhost', value='globalhost'),
+        app_commands.Choice(name='GNAME', value='gname'),
+        app_commands.Choice(name='GoDaddy', value='godaddy'),
+        app_commands.Choice(name='Google Domains', value='google'),
+        app_commands.Choice(name='Google Domains TR', value='googletr'),
+        app_commands.Choice(name='HEXONET', value='hexonet'),
+        app_commands.Choice(name='hover', value='hover'),
+        app_commands.Choice(name='InnovaHost', value='innovahost'),
+        app_commands.Choice(name='internet.bs', value='internetbs'),
+        app_commands.Choice(name='INWX', value='inwx'),
+        app_commands.Choice(name='Marcaria', value='marcaria'),
+        app_commands.Choice(name='MrDomain', value='mrdomain'),
+        app_commands.Choice(name='Name.com', value='namecom'),
+        app_commands.Choice(name='namecheap', value='namecheap'),
+        app_commands.Choice(name='NameSilo', value='namesilo'),
+        app_commands.Choice(name='netim', value='netim'),
+        app_commands.Choice(name='one.com', value='onecom'),
+        app_commands.Choice(name='OnlyDomains', value='onlydomains'),
+        app_commands.Choice(name='OpenSRS', value='opensrs'),
+        app_commands.Choice(name='OVHcloud', value='ovh'),
+        app_commands.Choice(name='Pananames', value='pananames'),
+        app_commands.Choice(name='porkbun', value='porkbun'),
+        app_commands.Choice(name='Rebel', value='rebel'),
+        app_commands.Choice(name='Regery', value='regery'),
+        app_commands.Choice(name='regtons', value='regtons'),
+        app_commands.Choice(name='Sav', value='sav'),
+        app_commands.Choice(name='Spaceship', value='spaceship'),
+        app_commands.Choice(name='TFhost', value='tfhost'),
+        app_commands.Choice(name='Truehost', value='truehost'),
+        app_commands.Choice(name='west.xyz', value='west.xyz'),
+        app_commands.Choice(name='WordPress.com', value='wordpress'),
+        app_commands.Choice(name='Zone', value='zone'),
+    ]
+)
+async def domain(interaction: discord.Interaction, registrar: str, order: app_commands.Choice[str]):
+    await interaction.response.defer(ephemeral=True)
+    result = cheapest(registrar, str(order))
+    if result is None:
+        await interaction.followup.send(f"Invalid input or Inter Error")
+        return
+    else:
+        await interaction.followup.send(
+            "## Domain Registrar"
+            f"\n**Registrar**: {result['reg']} **Registrar Website**: {result['reg_web']} **| Order**: {result['order']}"
+            "\n### 1st: "
+            f"\n**Domain**: {result['domain_1']}"
+            f"\n**New**: {result['new_1']}"
+            f"\n**Renew**: {result['renew_1']}"
+            f"\n**Transfer**: {result['transfer_1']}"
+            f"\n**Currency**: {result['currency_1']}"
+            "\n### 2nd: "
+            f"\n**Domain**: {result['domain_2']}"
+            f"\n**New**: {result['new_2']}"
+            f"\n**Renew**: {result['renew_2']}"
+            f"\n**Transfer**: {result['transfer_2']}"
+            f"\n**Currency**: {result['currency_2']}"
+            "\n### 3rd: "
+            f"\n**Domain**: {result['domain_3']}"
+            f"\n**New**: {result['new_3']}"
+            f"\n**Renew**: {result['renew_3']}"
+            f"\n**Transfer**: {result['transfer_3']}"
+            f"\n**Currency**: {result['currency_3']}"
+            "\n### 4th: "
+            f"\n**Domain**: {result['domain_4']}"
+            f"\n**New**: {result['new_4']}"
+            f"\n**Renew**: {result['renew_4']}"
+            f"\n**Transfer**: {result['transfer_4']}"
+            f"\n**Currency**: {result['currency_4']}"
+            "\n### 5th: "
+            f"\n**Domain**: {result['domain_5']}"
+            f"\n**New**: {result['new_5']}"
+            f"\n**Renew**: {result['renew_5']}"
+            f"\n**Transfer**: {result['transfer_5']}"
+            f"\n**Currency**: {result['currency_5']}"
+        )
         return
 
-# /version
-@client.tree.command(name='version', description="Print the version of the bot")
+# /info
+@client.tree.command(name='info', description="Some information about this bot")
 async def version(interaction: discord.Interaction):
-    await interaction.response.send_message(f"**Bot Version:** {bot_version}\n**Bot Build:** {bot_build}\n**Settings Version:** {setting_version}\n**Build Type:** {bot_type}", ephemeral=True)
-
-# /help
-@client.tree.command(name='help', description='Guild of use this bot.')
-async def version(interaction: discord.Interaction):
-    await interaction.response.send_message(f"- `/say [message]` let bot send a message."
-                                            "\n- `/roll` Roll a dice"
-                                            "\n- `/ipdetails [IP address]` Get detail information of an ipaddress"
-                                            "\n- `/zipcode [Country] [zipcode]` Search address from zipcode"
-                                            "\n- `/status [Status] [Custom Status]` Change Bot's status. "
-                                            "\n- `/version` Print the version of this bot."
-                                            "\n- `/help` Show the help of using this bot.",
-                                            ephemeral=True)
+    await interaction.response.send_message(
+        "## JianyueBot"
+        "This bot was developed by [JianyueLab](https://eke.vin). If you have any questions or require assistance, please contact @jianyuehugo."
+        "**Github Repo**: https://github.com/jianyuelab/jianyuebot"
+        f"**Bot Version:** {bot_version}\n**Bot Build:** {bot_build}\n**Settings Version:** {setting_version}\n**Build Type:** {bot_type}"
+        , ephemeral=True)
 
 client.run(TOKEN)
