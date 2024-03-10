@@ -7,13 +7,14 @@ import random
 from scripts.zipcode import search_zipcode_jp
 from scripts.ipdetails import ipdetails
 from scripts.iplocations import iplocations
+from scripts.domainreg import cheapest
 
 # 固定不变
 intents = discord.Intents.all() 
 client = commands.Bot(command_prefix='!', intents=intents)
 
 # 版本号
-bot_version = "v0.1.1"
+bot_version = "v0.1.2"
 bot_build = "1"
 bot_type = "Dev Build"
 
@@ -150,8 +151,66 @@ async def iplocation(interaction: discord.Interaction, ipaddress: str):
         embed.add_field(name='ISP', value=result['isp'])
         embed.add_field(name='org', value=result['org'])
         embed.add_field(name='ASN', value=result['as'])
-        
+
         await interaction.followup.send(embed=embed)
+        return
+
+# /domain
+@client.tree.command(name='domain', description='Find the cheapest domain register')
+@app_commands.choices(
+    order=[
+    app_commands.Choice(name='New', value='new'),
+    app_commands.Choice(name='Renew', value='renew'),
+    app_commands.Choice(name='Transfer', value='transfer'),
+    ]
+)
+async def domain(interaction: discord.Interaction, tld: str, order: app_commands.Choice[str]):
+    await interaction.response.defer(ephemeral=True)
+    result = cheapest(tld, str(order))
+    if result is None:
+        await interaction.followup.send(f"Invalid input or Inter Error")
+        return
+    else:
+        await interaction.followup.send(
+            "## Domain Registrar"
+            f"\n**TLD**: {result['domain']} **| Order**: {result['order']}"
+            "\n### 1st: "
+            f"\n- **Registrar**: {result['reg_1']}"
+            f"\n- **Currency**: {result['currency_1']}"
+            f"\n- **New**: {result['new_1']}"
+            f"\n- **Renew**: {result['renew_1']}"
+            f"\n- **Transfer**: {result['transfer_1']}"
+            f"\n- **Registrar Website**: {result['reg_web_1']}"
+            "\n### 2nd: "
+            f"\n- **Registrar**: {result['reg_2']}"
+            f"\n- **Currency**: {result['currency_2']}"
+            f"\n- **New**: {result['new_2']}"
+            f"\n- **Renew**: {result['renew_2']}"
+            f"\n- **Transfer**: {result['transfer_2']}"
+            f"\n- **Registrar Website**: {result['reg_web_2']}"
+            "\n### 3rd: "
+            f"\n- **Registrar**: {result['reg_3']}"
+            f"\n- **Currency**: {result['currency_3']}"
+            f"\n- **New**: {result['new_3']}"
+            f"\n- **Renew**: {result['renew_3']}"
+            f"\n- **Transfer**: {result['transfer_3']}"
+            f"\n- **Registrar Website**: {result['reg_web_3']}"
+            "\n### 4th: "
+            f"\n- **Registrar**: {result['reg_4']}"
+            f"\n- **Currency**: {result['currency_4']}"
+            f"\n- **New**: {result['new_4']}"
+            f"\n- **Renew**: {result['renew_4']}"
+            f"\n- **Transfer**: {result['transfer_4']}"
+            f"\n- **Registrar Website**: {result['reg_web_4']}"
+            "\n### 5th: "
+            f"\n- **Registrar**: {result['reg_4']}"
+            f"\n- **Currency**: {result['currency_4']}"
+            f"\n- **New**: {result['new_4']}"
+            f"\n- **Renew**: {result['renew_4']}"
+            f"\n- **Transfer**: {result['transfer_4']}"
+            f"\n- **Registrar Website**: {result['reg_web_4']}"
+            )
+
         return
 
 # /version
