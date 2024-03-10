@@ -56,7 +56,7 @@ def cheapest(tld, order):
 def registrar_search(registrar, order):
     url = "https://www.nazhumi.com/api/v1?"
     
-    response = requests.get(url + "&order=" + str(order) + "&resgitrar=" + str(registrar))
+    response = requests.get(url + "registrar=" + str(registrar) + "&order=" + str(order) )
     data = response.json()
     
     try:

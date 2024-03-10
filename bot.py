@@ -222,14 +222,14 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
 )
 async def registrars(interaction: discord.Interaction, registrar: str, order: app_commands.Choice[str]):
     await interaction.response.defer(ephemeral=True)
-    result = registrar_search(str(registrar), str(order))
+    result = registrar_search(registrar, order)
     if result is None:
         await interaction.followup.send(f"Invalid input or Inter Error")
         return
     else:
         await interaction.followup.send(
             "## Domain Registrar"
-            f"\n**Registrar**: {result['reg']} **Registrar Website**: {result['reg_web']} **| Order**: {result['order']}"
+            f"\n**Registrar**: {result['reg']} **| Registrar Website**: {result['reg_web']} **| Order**: {result['order']}"
             "\n### 1st: "
             f"\n**Domain**: {result['domain_1']}"
             f"\n**New**: {result['new_1']}"
