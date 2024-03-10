@@ -7,7 +7,7 @@ import random
 from scripts.zipcode import search_zipcode_jp
 from scripts.ipdetails import ipdetails
 from scripts.iplocations import iplocations
-from scripts.domainreg import cheapest
+from scripts.domainreg import cheapest, registrar_search
 
 # 固定不变
 intents = discord.Intents.all() 
@@ -222,7 +222,7 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
 )
 async def registrars(interaction: discord.Interaction, registrar: str, order: app_commands.Choice[str]):
     await interaction.response.defer(ephemeral=True)
-    result = cheapest(registrar, str(order))
+    result = registrar_search(str(registrar), str(order))
     if result is None:
         await interaction.followup.send(f"Invalid input or Inter Error")
         return

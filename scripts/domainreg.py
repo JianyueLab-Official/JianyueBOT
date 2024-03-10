@@ -53,7 +53,7 @@ def cheapest(tld, order):
         print(f"An error occurred while processing the request: {e}")
         return None
     
-def registrar(registrar, order):
+def registrar_search(registrar, order):
     url = "https://www.nazhumi.com/api/v1?"
     
     response = requests.get(url + "&order=" + str(order) + "&resgitrar=" + str(registrar))
