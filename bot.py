@@ -211,8 +211,8 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
             )
         return
     
-# /registrar
-@client.tree.command(name='registrar', description='Find the cheapest domain registrar')
+# /registrars
+@client.tree.command(name='registrars', description='Find the cheapest domain registrar')
 @app_commands.choices(
     order=[
         app_commands.Choice(name='New', value='new'),
@@ -285,7 +285,7 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
         app_commands.Choice(name='Zone', value='zone'),
     ]
 )
-async def domain(interaction: discord.Interaction, registrar: str, order: app_commands.Choice[str]):
+async def registrars(interaction: discord.Interaction, registrar: str, order: app_commands.Choice[str]):
     await interaction.response.defer(ephemeral=True)
     result = cheapest(registrar, str(order))
     if result is None:
