@@ -267,7 +267,7 @@ async def registrars(interaction: discord.Interaction, registrar: str, order: ap
 @client.tree.command(name='info', description="Some information about this bot")
 async def version(interaction: discord.Interaction):
     await interaction.response.send_message(
-        "## JianyueBot"
+        "## JianyueBot\n"
         "This bot was developed by [JianyueLab](https://eke.vin). If you have any questions or require assistance, please contact @jianyuehugo."
         "**Github Repo**: https://github.com/jianyuelab/jianyuebot"
         f"**Bot Version:** {bot_version}\n**Bot Build:** {bot_build}\n**Settings Version:** {setting_version}\n**Build Type:** {bot_type}"
