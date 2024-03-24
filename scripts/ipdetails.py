@@ -1,5 +1,6 @@
 import requests
 
+
 def ipdetails(ipaddress):
     url = "https://api.iplocation.net/?ip="
 

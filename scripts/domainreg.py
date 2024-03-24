@@ -1,5 +1,6 @@
 import requests
 
+
 def cheapest(tld, order):
     url = "https://www.nazhumi.com/api/v1?"
     
@@ -52,7 +53,8 @@ def cheapest(tld, order):
     except requests.exceptions.RequestException as e:
         print(f"An error occurred while processing the request: {e}")
         return None
-    
+
+
 def registrar_search(registrar, order):
     url = "https://www.nazhumi.com/api/v1?"
     

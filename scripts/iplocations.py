@@ -1,5 +1,6 @@
 import requests
 
+
 def iplocations(ipaddress):
     url = "http://ip-api.com/json/"
 
@@ -12,10 +13,10 @@ def iplocations(ipaddress):
                 "query": data["query"],
                 "country": data["country"],
                 "city": data["city"],
-                "zip": data["zip"], 
+                "zip": data["zip"],
                 "isp": data["isp"],
                 "org": data["org"],
-                "timezone": data["timezone"], 
+                "timezone": data["timezone"],
                 "as": data["as"]
             }
             return result
