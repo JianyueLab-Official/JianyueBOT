@@ -7,10 +7,7 @@ from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from scripts.domainreg import cheapest, registrar_search
-from scripts.ipdetails import ipdetails
-from scripts.iplocations import iplocations
-from scripts.zipcode import search_zipcode_jp
+from scripts import cheapest, registrar_search, ipdetails, iplocations, search_zipcode_jp
 
 load_dotenv('.env')
 
