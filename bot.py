@@ -7,7 +7,7 @@ from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from scripts import cheapest, registrar_search, ipdetails, iplocations, search_zipcode_jp
+from scripts import *
 
 load_dotenv('.env')
 
@@ -22,7 +22,7 @@ intents = discord.Intents.all()
 client = commands.Bot(command_prefix='!', intents=intents)
 
 # 版本号
-bot_version = "v0.1.2"
+bot_version = "v0.1.3"
 bot_build = "1"
 bot_type = "Dev Build"
 
@@ -62,11 +62,13 @@ async def say(interaction: discord.Interaction, things_to_say: str):
 
 # /status [choice] [custom]
 @client.tree.command(name="status", description="Change the status")
-@app_commands.choices(choices=[
-    app_commands.Choice(name="Online", value="online"),
-    app_commands.Choice(name="idle", value="idle"),
-    app_commands.Choice(name="Do Not Disturb", value="dnd"),
-])
+@app_commands.choices(
+    choices=[
+        app_commands.Choice(name="Online", value="online"),
+        app_commands.Choice(name="idle", value="idle"),
+        app_commands.Choice(name="Do Not Disturb", value="dnd"),
+    ]
+)
 async def status(interaction: discord.Interaction, choices: app_commands.Choice[str], *, custom_status_message: str):
     if choices.value == "online":
         changed_status = discord.Status.online
@@ -93,9 +95,11 @@ async def roll(interaction: discord.Interaction):
 
 # /zipcode [country] [zipcode]
 @client.tree.command(name='zipcode', description='search address from zipcode')
-@app_commands.choices(country=[
-    app_commands.Choice(name='Japan', value='JP'),
-])
+@app_commands.choices(
+    country=[
+        app_commands.Choice(name='Japan', value='JP'),
+    ]
+)
 async def zipcode(interaction: discord.Interaction, country: app_commands.Choice[str], zipcodes: str):
     await interaction.response.defer(ephemeral=True)
     if country.value == 'JP':
@@ -288,6 +292,38 @@ async def registrars(interaction: discord.Interaction, registrar: str, order: ap
             """
         )
         return
+
+
+# Minecraft server detection
+@client.tree.command(name='mcserver', description='Get debug and details of a minecraft server')
+@app_commands.choices(
+    server_type=[
+        app_commands.Choice(name='Java', value='java'),
+        app_commands.Choice(name='Bedrock', value='bedrock'),
+    ]
+)
+async def mcserver(interaction: discord.Interaction, server_type: app_commands.Choice[str], ipaddress: str):
+    await interaction.response.defer(ephemeral=True)
+    result = minecraftServer(server_type, ipaddress)
+    if result is None:
+        await interaction.followup.send("Invalid Input / Server Type")
+    else:
+        embed = discord.Embed(
+            colour=discord.Colour.dark_grey(),
+            title="Minecraft Server",
+            description=f"This is the Result of {ipaddress}"
+        )
+        embed.add_field(name='Actual IP address', value=result['ip'])
+        embed.add_field(name='Server Listening Port', value=result['port'])
+        embed.add_field(name='Hostname', value=result['hostname'])
+        embed.add_field(name='Game Version', value=result['version'])
+        embed.add_field(name='MOTD', value=result['motd'])
+        embed.add_field(name='Ping', value=result['ping'])
+        embed.add_field(name='SRV Record', value=result['srv'])
+        embed.add_field(name='Player', value=f"{result['player']} / {result['maxPlayer']}")
+
+        await interaction.followup.send(embed=embed)
+    return
 
 
 # /info

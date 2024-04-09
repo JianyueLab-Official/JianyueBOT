@@ -179,3 +179,31 @@ def search_zipcode_jp(zipcode):
     except requests.exceptions.RequestException as e:
         print(f"An error occurred while processing the request: {e}")
         return None
+
+
+def minecraftServer(server_type, server_ip):
+    if server_type.value == 'java':
+        response = requests.get("https://api.mcsrvstat.us/3/" + server_ip)
+        data = response.json()
+
+    elif server_type.value == 'bedrock':
+        response = requests.get("https://api.mcsrvstat.us/bedrock/3/" + server_ip)
+        data = response.json()
+
+    else:
+        return None
+
+    if data["online"]:
+        result = {
+            "ip": data["ip"],
+            "port": data["port"],
+            "hostname": data["hostname"],
+            "version": data["protocol"]["name"],
+            "motd": data["motd"]["clean"],
+            "ping": data["debug"]["ping"],
+            "srv": data["debug"]["srv"],
+            "player": data["players"]["online"],
+            "maxPlayer": data["players"]["max"]
+        }
+
+        return result
