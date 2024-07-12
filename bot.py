@@ -198,6 +198,7 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
             f"""
             ## Domain Registrar
             **TLD**: {result['domain']} **| Order**: {result['order']}
+            -------------------------------------------
             ### 1st:
             - **Registrar**: {result['reg_1']}
             - **Currency**: {result['currency_1']}
@@ -205,6 +206,7 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
             - **Renew**: {result['renew_1']}
             - **Transfer**: {result['transfer_1']}
             - **Registrar Website**: {result['reg_web_1']}
+            -------------------------------------------
             ### 2nd:
             - **Registrar**: {result['reg_2']}
             - **Currency**: {result['currency_2']}
@@ -212,6 +214,7 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
             - **Renew**: {result['renew_2']}
             - **Transfer**: {result['transfer_2']}
             - **Registrar Website**: {result['reg_web_2']}
+            -------------------------------------------
             ### 3rd:
             - **Registrar**: {result['reg_3']}
             - **Currency**: {result['currency_3']}
@@ -219,6 +222,7 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
             - **Renew**: {result['renew_3']}
             - **Transfer**: {result['transfer_3']}
             - **Registrar Website**: {result['reg_web_3']}
+            -------------------------------------------
             ### 4th:
             - **Registrar**: {result['reg_4']}
             - **Currency**: {result['currency_4']}
@@ -226,6 +230,7 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
             - **Renew**: {result['renew_4']}
             - **Transfer**: {result['transfer_4']}
             - **Registrar Website**: {result['reg_web_4']}
+            -------------------------------------------
             ### 5th:
             - **Registrar**: {result['reg_4']}
             - **Currency**: {result['currency_4']}
@@ -233,6 +238,7 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
             - **Renew**: {result['renew_4']}
             - **Transfer**: {result['transfer_4']}
             - **Registrar Website**: {result['reg_web_4']}
+            -------------------------------------------
             """
         )
 
