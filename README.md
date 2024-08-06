@@ -2,7 +2,7 @@
 
 ---
 
-[![Color logo - no background.png](https://pic.awa.vin/l/1/65ed96d8606e6/65ed96d8606e6.png)](https://eke.vin)
+[![Color logo - no background.png](https://pic.awa.ms/f/1/65ed96d8606e6/65ed96d8606e6.png)](https://awa.ms)
 
 ### [Docs](https://awa.ms/docs)
 
