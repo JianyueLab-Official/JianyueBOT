@@ -1,11 +1,9 @@
 # imports
-import os
 import random
 
 import discord
 from discord import app_commands
 from discord.ext import commands
-from dotenv import load_dotenv
 
 from scripts import *
 
@@ -22,9 +20,9 @@ intents = discord.Intents.all()
 client = commands.Bot(command_prefix='!', intents=intents)
 
 # 版本号
-bot_version = "v0.1.3"
+bot_version = "v0.1.4"
 bot_build = "1"
-bot_type = "Dev Build"
+bot_type = "Release Build"
 
 
 # 启动之后
@@ -195,45 +193,43 @@ async def domain(interaction: discord.Interaction, tld: str, order: app_commands
         await interaction.followup.send(f"Invalid input or Inter Error")
     else:
         await interaction.followup.send(
-            f"""
-            ## Domain Registrar
-            **TLD**: {result['domain']} **| Order**: {result['order']}
-            ### 1st:
-            - **Registrar**: {result['reg_1']}
-            - **Currency**: {result['currency_1']}
-            - **New**: {result['new_1']}
-            - **Renew**: {result['renew_1']}
-            - **Transfer**: {result['transfer_1']}
-            - **Registrar Website**: {result['reg_web_1']}
-            ### 2nd:
-            - **Registrar**: {result['reg_2']}
-            - **Currency**: {result['currency_2']}
-            - **New**: {result['new_2']}
-            - **Renew**: {result['renew_2']}
-            - **Transfer**: {result['transfer_2']}
-            - **Registrar Website**: {result['reg_web_2']}
-            ### 3rd:
-            - **Registrar**: {result['reg_3']}
-            - **Currency**: {result['currency_3']}
-            - **New**: {result['new_3']}
-            - **Renew**: {result['renew_3']}
-            - **Transfer**: {result['transfer_3']}
-            - **Registrar Website**: {result['reg_web_3']}
-            ### 4th:
-            - **Registrar**: {result['reg_4']}
-            - **Currency**: {result['currency_4']}
-            - **New**: {result['new_4']}
-            - **Renew**: {result['renew_4']}
-            - **Transfer**: {result['transfer_4']}
-            - **Registrar Website**: {result['reg_web_4']}
-            ### 5th:
-            - **Registrar**: {result['reg_4']}
-            - **Currency**: {result['currency_4']}
-            - **New**: {result['new_4']}
-            - **Renew**: {result['renew_4']}
-            - **Transfer**: {result['transfer_4']}
-            - **Registrar Website**: {result['reg_web_4']}
-            """
+            "## Domain Registrar"
+            f"\n**TLD**: {result['domain']} **| Order**: {result['order']}"
+            "\n### 1st:"
+            f"\n- **Registrar**: {result['reg_1']}"
+            f"\n- **Currency**: {result['currency_1']}"
+            f"\n- **New**: {result['new_1']}"
+            f"\n- **Renew**: {result['renew_1']}"
+            f"\n- **Transfer**: {result['transfer_1']}"
+            f"\n- **Registrar Website**: {result['reg_web_1']}"
+            "\n### 2nd:"
+            f"\n- **Registrar**: {result['reg_2']}"
+            f"\n- **Currency**: {result['currency_2']}"
+            f"\n- **New**: {result['new_2']}"
+            f"\n- **Renew**: {result['renew_2']}"
+            f"\n- **Transfer**: {result['transfer_2']}"
+            f"\n- **Registrar Website**: {result['reg_web_2']}"
+            "\n### 3rd:"
+            f"\n- **Registrar**: {result['reg_3']}"
+            f"\n- **Currency**: {result['currency_3']}"
+            f"\n- **New**: {result['new_3']}"
+            f"\n- **Renew**: {result['renew_3']}"
+            f"\n- **Transfer**: {result['transfer_3']}"
+            f"\n- **Registrar Website**: {result['reg_web_3']}"
+            "\n### 4th:"
+            f"\n- **Registrar**: {result['reg_4']}"
+            f"\n- **Currency**: {result['currency_4']}"
+            f"\n- **New**: {result['new_4']}"
+            f"\n- **Renew**: {result['renew_4']}"
+            f"\n- **Transfer**: {result['transfer_4']}"
+            f"\n- **Registrar Website**: {result['reg_web_4']}"
+            "\n### 5th:"
+            f"\n- **Registrar**: {result['reg_5']}"
+            f"\n- **Currency**: {result['currency_5']}"
+            f"\n- **New**: {result['new_5']}"
+            f"\n- **Renew**: {result['renew_5']}"
+            f"\n- **Transfer**: {result['transfer_5']}"
+            f"\n- **Registrar Website**: {result['reg_web_5']}"
         )
 
     return
@@ -256,40 +252,38 @@ async def registrars(interaction: discord.Interaction, registrar: str, order: ap
         return
     else:
         await interaction.followup.send(
-            f"""
-            ## Domain Registrar
-            **Registrar**: {result['reg']} **| Registrar Website**: {result['reg_web']} **| Order**: {result['order']}
-            ### 1st:
-            **Domain**: {result['domain_1']}
-            **New**: {result['new_1']}
-            **Renew**: {result['renew_1']}
-            **Transfer**: {result['transfer_1']}
-            **Currency**: {result['currency_1']}
-            ### 2nd:
-            **Domain**: {result['domain_2']}
-            **New**: {result['new_2']}
-            **Renew**: {result['renew_2']}
-            **Transfer**: {result['transfer_2']}
-            **Currency**: {result['currency_2']}
-            ### 3rd:
-            **Domain**: {result['domain_3']}
-            **New**: {result['new_3']}
-            **Renew**: {result['renew_3']}
-            **Transfer**: {result['transfer_3']}
-            **Currency**: {result['currency_3']}
-            ### 4th:
-            **Domain**: {result['domain_4']}
-            **New**: {result['new_4']}
-            **Renew**: {result['renew_4']}
-            **Transfer**: {result['transfer_4']}
-            **Currency**: {result['currency_4']}
-            ### 5th:
-            **Domain**: {result['domain_5']}
-            **New**: {result['new_5']}
-            **Renew**: {result['renew_5']}
-            **Transfer**: {result['transfer_5']}
-            **Currency**: {result['currency_5']}
-            """
+            "## Domain Registrar"
+            f"\n**Registrar**: {result['reg']} **| Registrar Website**: {result['reg_web']} **| Order**: {result['order']}"
+            "\n### 1st:"
+            f"\n**Domain**: {result['domain_1']}"
+            f"\n**New**: {result['new_1']}"
+            f"\n**Renew**: {result['renew_1']}"
+            f"\n**Transfer**: {result['transfer_1']}"
+            f"\n**Currency**: {result['currency_1']}"
+            "\n### 2nd:"
+            f"\n**Domain**: {result['domain_2']}"
+            f"\n**New**: {result['new_2']}"
+            f"\n**Renew**: {result['renew_2']}"
+            f"\n**Transfer**: {result['transfer_2']}"
+            f"\n**Currency**: {result['currency_2']}"
+            "\n### 3rd:"
+            f"\n**Domain**: {result['domain_3']}"
+            f"\n**New**: {result['new_3']}"
+            f"\n**Renew**: {result['renew_3']}"
+            f"\n**Transfer**: {result['transfer_3']}"
+            f"\n**Currency**: {result['currency_3']}"
+            "\n### 4th:"
+            f"\n**Domain**: {result['domain_4']}"
+            f"\n**New**: {result['new_4']}"
+            f"\n**Renew**: {result['renew_4']}"
+            f"\n**Transfer**: {result['transfer_4']}"
+            f"\n**Currency**: {result['currency_4']}"
+            "\n### 5th:"
+            f"\n**Domain**: {result['domain_5']}"
+            f"\n**New**: {result['new_5']}"
+            f"\n**Renew**: {result['renew_5']}"
+            f"\n**Transfer**: {result['transfer_5']}"
+            f"\n**Currency**: {result['currency_5']}"
         )
         return
 
@@ -326,20 +320,47 @@ async def mcserver(interaction: discord.Interaction, server_type: app_commands.C
     return
 
 
+# /bincheck
+@client.tree.command(name='bincheck', description="Check a card issuer and country")
+async def bincheck(interaction: discord.Interaction, bin_code: int):
+    await interaction.response.defer(ephemeral=True)
+    result = bin_check_request(bin_code)
+
+    if result is None:
+        await interaction.followup.send("Request Error or BIN code doesn't exist")
+    else:
+        embed = discord.Embed(
+            colour=discord.Colour.dark_grey(),
+            title="BinCheck",
+            description=f"The result of {bin_code}"
+        )
+        embed.add_field(name='Valid', value=result['valid'])
+        embed.add_field(name='Brand', value=result['brand'])
+        embed.add_field(name='Type', value=result['type'])
+        embed.add_field(name='Level', value=result['level'])
+        embed.add_field(name='Commercial', value=result['is_commercial'])
+        embed.add_field(name='Prepaid', value=result['is_prepaid'])
+        embed.add_field(name='Currency', value=result['currency'])
+        embed.add_field(name='Country', value=result['country'])
+        embed.add_field(name='Flag', value=result['flag'])
+        embed.add_field(name='Issuer', value=result['issuer'])
+
+        await interaction.followup.send(embed=embed, ephemeral=True)
+    return
+
+
 # /info
 @client.tree.command(name='info', description="Some information about this bot")
 async def version(interaction: discord.Interaction):
     await interaction.response.send_message(
-        """
-        ## JianyueBot
-        This bot was developed by [JianyueLab](https://eke.vin). 
-        If you have any questions or require assistance, please contact @jianyuehugo.
-        - **Github Repo**: https://github.com/jianyuelab/jianyuebot
-        - **Bot Version:** {bot_version}
-        - **Bot Build:** {bot_build}
-        - **Settings Version:** {setting_version}
-        - **Build Type:** {bot_type}
-        """,
+        "## JianyueBot"
+        "\nThis bot was developed by [JianyueLab](https://awa.ms)."
+        "\nIf you have any questions or require assistance, please contact @jianyuehugo."
+        "\n- **GitHub Repo**: https://github.com/jianyuelab/jianyuebot"
+        f"\n- **Bot Version:** {bot_version}"
+        f"\n- **Bot Build:** {bot_build}"
+        f"\n- **Settings Version:** {setting_version}"
+        f"\n- **Build Type:** {[bot_type]}",
         ephemeral=True
     )
 

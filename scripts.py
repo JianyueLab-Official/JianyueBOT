@@ -1,5 +1,19 @@
-import requests
+import os
 
+import requests
+from dotenv import load_dotenv
+
+load_dotenv('.env')
+bincheck_apikey = os.getenv('bincheck_apikey')
+
+
+def true_false_judgement(data):
+    if data == 'true':
+        return '✅'
+    elif data == 'false':
+        return '❌'
+    else:
+        return None
 
 def cheapest(tld, order):
     url = "https://www.nazhumi.com/api/v1?"
@@ -79,6 +93,7 @@ def registrar_search(registrar, order):
                 "transfer_2": data["data"]["price"][1]["transfer"],
                 "currency_2": data["data"]["price"][1]["currency"],
 
+                "domain_3": data["data"]["price"][2]["domain"],
                 "new_3": data["data"]["price"][2]["new"],
                 "renew_3": data["data"]["price"][2]["renew"],
                 "transfer_3": data["data"]["price"][2]["transfer"],
@@ -93,7 +108,7 @@ def registrar_search(registrar, order):
                 "domain_5": data["data"]["price"][4]["domain"],
                 "new_5": data["data"]["price"][4]["new"],
                 "renew_5": data["data"]["price"][4]["renew"],
-                "transfer_5": data["data"]["pr aice"][4]["transfer"],
+                "transfer_5": data["data"]["price"][4]["transfer"],
                 "currency_5": data["data"]["price"][4]["currency"],
             }
             return result
@@ -207,3 +222,38 @@ def minecraftServer(server_type, server_ip):
         }
 
         return result
+
+
+def bin_check_request(bin_code):
+    url = "https://bin-ip-checker.p.rapidapi.com/"
+
+    querystring = {"bin": [bin_code]}
+
+    payload = {"bin": [bin_code]}
+    headers = {
+        "x-rapidapi-key": f"{bincheck_apikey}",
+        "x-rapidapi-host": "bin-ip-checker.p.rapidapi.com",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post(url, json=payload, headers=headers, params=querystring)
+    data = response.json()
+
+    status_code = data["code"]
+    if status_code == 200:
+        result = {
+            "valid": data["BIN"]["valid"],
+            "brand": data["BIN"]["brand"],
+            "type": data["BIN"]["type"],
+            "level": data["BIN"]["level"],
+            "is_commercial": true_false_judgement(data["BIN"]["is_commercial"]),
+            "is_prepaid": true_false_judgement(data["BIN"]["is_prepaid"]),
+            "currency": data["BIN"]["currency"],
+            "issuer": data["BIN"]["issuer"]["name"],
+            "country": data["BIN"]["country"]["name"],
+            "flag": data["BIN"]["country"]["flag"],
+        }
+    else:
+        result = None
+
+    return result
